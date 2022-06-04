@@ -1,9 +1,11 @@
-const express = require('express')
-const uuid = require('uuid')
+import express from 'express';
+import {v4} from 'uuid';
+import cors from 'cors';
 
-const port = 3000
+const port = 3001
 const app = express()
 app.use(express.json())
+app.use(cors())
 
 const users = []
 
@@ -30,11 +32,11 @@ app.get('/users/', (request, response)=>{
 app.post('/users/', (request, response)=>{
     const {name, age} = request.body
     
-    const user = { id: uuid.v4(),name, age }
+    const user = { id: v4(),name, age }
 
     users.push(user)
 
-    return response.json(user)
+    return response.status(201).json(user)
 })
 
 app.put('/users/:id',checkUserId, (request, response)=>{
